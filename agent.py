@@ -22,8 +22,8 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 		print 'this is agent', self.name , 'playing'
 		print 'it is playing within the domain of ', self.domain
 		print 'the current nash memory is as follows:'
-		print 'N = ', N
-		print 'M = ', M
+		print 'N = ', self.N
+		print 'M = ', self.M
 
 class RandomAgent (Agent):
 
