@@ -2,7 +2,7 @@
 # ILLC @ UvA
 # ai.robert.wangshuai@gmail.com
 
-from agent import Agent, RandomAgent
+from agent import Agent, RandomAgent, PerfectAgent
 import random
 import sys
 
@@ -21,11 +21,11 @@ class  Platform(object):
 		# +-------------------------------------------+
 		# |           | rock 0 | paper 1 | scissors 2 |  
 		# | rock 0    |      0 |      -1 |          1 |
-		# | paper 1   |     -1 |       0 |          1 |
+		# | paper 1   |      1 |       0 |         -1 |
 		# | scissors 2|     -1 |       1 |          0 |
 		# +-------------------------------------------+  
 
-		matrix = [[0, -1, 1], [-1, 0, 1], [-1, 1, 0]]
+		matrix = [[0, -1, 1], [1, 0, -1], [-1, 1, 0]]
 
 		return matrix[c1][c2]
 
@@ -60,6 +60,9 @@ def main():
 		if sys.argv[i] == '-r': # an agent with random strategy
 			agents.append(RandomAgent('random' + str(i), domain))
 			print ('the ', i-1 , 'th player uses a random strategy')
+		if sys.argv[i] == '-p': # an agent with perfect strategy
+			agents.append(PerfectAgent('perfect' + str(i), domain))
+			print ('the ', i-1 , 'th player uses a perfect strategy')	
 	# print info of agent 1 and 2
 	agents[0].print_info() 
 	agents[1].print_info() 
