@@ -39,8 +39,8 @@ class  Platform(object):
 			# zero sum game
 			pay1 = self.payoff(c1, c2)
 			pay2 = 0 - pay1
-			print ('\tthe payoff for agent 1 is '), pay1
-			print ('\tthe payoff for agent 2 is '), pay2
+			print ('\tthe payoff for agent 1 is ', pay1)
+			print ('\tthe payoff for agent 2 is ', pay2)
 
 
 def main():
@@ -48,7 +48,7 @@ def main():
 	# to use, simply type 'python main.py x -n -r' for example
 	# x is the size of domain
 	# -n or -r is the agent you select
-	print ('this is a game of two players in the domain of size'), sys.argv[1]
+	print ('this is a game of two players in the domain of size', sys.argv[1])
 	domain = range(int(sys.argv[1]))
 	# print domain
 	# print sys.argv[2], sys.argv[3]
@@ -60,7 +60,8 @@ def main():
 		if sys.argv[i] == '-r': # an agent with random strategy
 			agents.append(RandomAgent('random' + str(i), domain))
 			print ('the ', i-1 , 'th player uses a random strategy')
-	
+	agents[0].print_info()
+	agents[1].print_info()
 	pl = Platform (agents, domain) # initialise the domain
 	pl.play(rounds)
 

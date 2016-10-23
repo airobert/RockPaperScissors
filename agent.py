@@ -19,11 +19,11 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 		return self.domain[0] # the default agent returns plays only the first one in the domain
 
 	def print_info(self):
-		print ('this is agent'), self.name , ('playing')
-		print ('it is playing within the domain of '), self.domain
+		print ('this is agent', self.name , 'playing')
+		print ('it is playing within the domain of ', self.domain)
 		print ('the current nash memory is as follows:')
-		print ('N = '), self.N
-		print ('M = '), self.M
+		print ('N = ', self.N)
+		print ('M = ', self.M)
 
 class RandomAgent (Agent):
 
