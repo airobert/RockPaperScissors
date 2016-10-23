@@ -60,8 +60,9 @@ def main():
 		if sys.argv[i] == '-r': # an agent with random strategy
 			agents.append(RandomAgent('random' + str(i), domain))
 			print ('the ', i-1 , 'th player uses a random strategy')
-	agents[0].print_info()
-	agents[1].print_info()
+	# print info of agent 1 and 2
+	agents[0].print_info() 
+	agents[1].print_info() 
 	pl = Platform (agents, domain) # initialise the domain
 	pl.play(rounds)
 
