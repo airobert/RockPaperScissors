@@ -2,13 +2,26 @@
 # ILLC @ UvA
 # ai.robert.wangshuai@gmail.com
 
+ROCK = 0
+PAPER = 1
+SCISSORS = 2
+
 
 class PureStrategy(object):
 	def __init__(self, value):
 		self.value = value
 
 	def convertToMixed(self):
-		return MixStrategy(self.value, [1.0])
+		return MixedStrategy([self.value], [1.0])
+
+	def __str__(self):
+		if self.value == ROCK:
+			return 'ROCK'
+		if self.value == PAPER:
+			return 'PAPER'
+		if self.value == SCISSORS:
+			return 'SCISSORS'
+
 
 class MixedStrategy(object):
 	def __init__(self, values, probabilities): # values is basically pure strategies (of probability 1)
@@ -28,5 +41,8 @@ class MixedStrategy(object):
 			if self.probabilities[i] != 0:
 				l.append(self.values[i])
 		return l
+
+	def __str__(self):
+		return "foo"
 
 	

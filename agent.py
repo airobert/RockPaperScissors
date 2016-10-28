@@ -7,36 +7,25 @@ from strategy import *
 
 
 class Agent: # the default one is a Naive agent playing simple a strategy
-
-	def __init__(self, name):
-		self.name = name
-
-	def printInfo(self):
-		print 'this is agent', self.name , 'playing'
-
-
-class PureStrategyAgent(Agent):
-		
+	name = 'example'
+	pureStrategies = []
+	N = []
+	M = []
+	piN = 0
 	def __init__ (self, name, pureStrategies):
-		self.name == name
-		self.strategy = pureStrategies
-		Agent.__init__(self, name)
+		self.name = name
+		self.pureStrategies = pureStrategies
+		# at the beginning N is inialised as an arbitrary pure strategy
+		self.piN = random.choice(self.pureStrategies).convertToMixed()
+		self.N = [self.piN.support()] 
+		# M is initialised as empty list
+		self.__M = []
 
 	def play(self):
-		return PureStrategy(random.choice(self.pureStrategies))
+		return self.piN
 
-	
-
-class MixedStrategyAgent(Agent):
-		
-	def __init__ (self, name, pureStrategies):
-		self.name == name
-		self.strategy = pureStrategies
-		Agent.__init__(self, name)
-
-	def playPure(self):
-		return PureStrategy(random.choice(self.pureStrategies)
-
-
-
-
+	def printInfo(self):
+		print 'This agent is called: ', self.name
+		print 'There are the following strategies:'
+		for p in self.pureStrategies:
+			print '\t', p

@@ -2,7 +2,7 @@
 # ILLC @ UvA
 # ai.robert.wangshuai@gmail.com
 
-from agent import Agent, RandomAgent
+from agent import *
 import random
 import sys
 from strategy import *
@@ -11,8 +11,9 @@ from strategy import *
 rounds = 5 # how many rounds of games do we iterate
 # repeat = 10 # repeat ten times for each round and calculate the average payoff
 
-
-
+ROCK = 0
+PAPER = 1
+SCISSORS = 2
 
 class  Platform(object):
 	
@@ -56,10 +57,15 @@ class  Platform(object):
 		
 def main():
 	global rounds
-	# to use, simply type 'python main.py x -n -r' for example
-	# x is the size of domain
-	# -n or -r is the agent you select
-	# 
+	# initialise one agent that plays against computer
+	r = PureStrategy(ROCK)
+	p = PureStrategy(PAPER)
+	s = PureStrategy(SCISSORS)
+	a = Agent('bob', [r, p, s])
+
+	a.printInfo()
+
+
 
 
 
