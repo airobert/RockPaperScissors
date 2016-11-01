@@ -29,7 +29,7 @@ class MixedStrategy(object):
 			self.values = values
 			self.probabilities = probabilities
 		else:
-			print 'error' # TODO: make this an exception
+			print ('error') # TODO: make this an exception
 		
 	def convertToPure(self):
 		for i in range(len(self.probabilities)):

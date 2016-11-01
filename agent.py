@@ -3,7 +3,10 @@
 # ai.robert.wangshuai@gmail.com
 
 import random
+
 from strategy import *
+import sys
+
 
 
 class Agent: # the default one is a Naive agent playing simple a strategy
@@ -21,12 +24,9 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 		# M is initialised as empty list
 		self.__M = []
 
-	def play(self):
-		return self.piN
-
 	def printInfo(self):
-		print 'This agent is called: ', self.name
-		print 'There are the following strategies:'
+		print ('This agent is called: ', self.name)
+		print ('There are the following strategies:')
 		for p in self.pureStrategies:
 			print '\t', p
 
@@ -45,3 +45,6 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 			pc = [] # the percentage
 			for m in range(size):
 				s.append(random.choice(self.pureStrategies))
+
+	def play(self):
+		return self.piN
