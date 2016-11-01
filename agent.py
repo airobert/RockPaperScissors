@@ -3,6 +3,24 @@
 # ai.robert.wangshuai@gmail.com
 
 import random
+import sys
+
+class MixedStrategy:
+
+	def __init__(self, support, possibility):
+		if len(support) == len (possibility):
+			self.support = support
+			self.possibility = possibility
+		else:
+			raise Exception('they are not of the same length')
+
+	def get_support(self): # C(m)
+		return support
+
+	def get_secure (self): # S(m)
+		return [] 
+
+
 
 class Agent: # the default one is a Naive agent playing simple a strategy
 
@@ -19,11 +37,13 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 		return self.domain[0] # the default agent returns plays only the first one in the domain
 
 	def print_info(self):
-		print 'this is agent', self.name , 'playing'
-		print 'it is playing within the domain of ', self.domain
-		print 'the current nash memory is as follows:'
-		print 'N = ', self.N
-		print 'M = ', self.M
+		print ('this is agent', self.name , 'playing')
+		print ('it is playing within the domain of ', self.domain)
+		print ('the current nash memory is as follows:')
+		print ('N = ', self.N)
+		print ('M = ', self.M)
+
+	# def searchBy 
 
 class RandomAgent (Agent):
 
