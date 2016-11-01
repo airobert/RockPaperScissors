@@ -29,3 +29,19 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 		print 'There are the following strategies:'
 		for p in self.pureStrategies:
 			print '\t', p
+
+	def iteration (self, numIter):#
+		for i in range(numIter):
+			# start this iteration with discovering new strategies by the heuristic
+			T = self.searchWithHeuristic(3)
+			# test against piN and obtain the winners
+			W = 
+
+	def searchWithHeuristic(self, num):
+		for n in range(num):
+			# obtain a mixed strategy of random size
+			size = randrange(1, len(self.pureStrategies)+1)# any number between 1 and len(self.pureStragegies)
+			st = [] # the 
+			pc = [] # the percentage
+			for m in range(size):
+				s.append(random.choice(self.pureStrategies))

@@ -43,6 +43,19 @@ class MixedStrategy(object):
 		return l
 
 	def __str__(self):
-		return "foo"
+		s = ''
+		for i in range (len(self.values)):
+
+			if self.values[i] == ROCK:
+				s += 'ROCK'
+			if self.values[i] == PAPER:
+				s += 'PAPER'
+			if self.values[i] == SCISSORS:
+				s += 'SCISSORS'#
+			s += ' '+ str(self.probabilities[i])
+			if i != len(self.values) - 1:
+				s += '\t'
+		return s
+
 
 	

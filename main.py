@@ -65,6 +65,9 @@ def main():
 
 	a.printInfo()
 
+	s = a.play()
+	print s
+	
 
 
 
