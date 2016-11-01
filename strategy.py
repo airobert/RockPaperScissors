@@ -30,7 +30,7 @@ class MixedStrategy(object):
 			self.values = values
 			self.probabilities = probabilities
 		else:
-			print ('error') # TODO: make this an exception
+			print ('error', values, probabilities, sum(probabilities)) # TODO: make this an exception
 		
 	def convertToPure(self):
 		for i in range(len(self.probabilities)):
@@ -53,7 +53,7 @@ class MixedStrategy(object):
 				s += 'PAPER'
 			if self.values[i] == SCISSORS:
 				s += 'SCISSORS'#
-			s += ' '+ str(self.probabilities[i])
+			s += ' '+ str(self.probabilities[i])[:5]
 			if i != len(self.values) - 1:
 				s += '\t'
 		return s

@@ -42,11 +42,13 @@ class  Platform(object):
 		# m and n can be pure or mixed strategies but here we use a uniform implementation
 		# if m or n is pure strategy, then convert it to a mixed strategy and evaluate
 
-		if type(m) == 'PureStrategy':
+		if 'PureStrategy' in str(type(m)):
 			m = m.convertToMixed()
 
-		if type(n) == 'PureStrategy':
+		if 'PureStrategy' in  str(type(n)):
 			n = n.convertToMixed()
+
+		# print ('type', type(m))
 		# for the first player (m): 
 		em = 0 # expected payoff for m
 		for i in range(len(m.values)):

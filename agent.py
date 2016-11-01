@@ -38,12 +38,12 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 
 	def iteration (self, num):
 		print ('-----------------the current strategy is', self.piN)
+		print ('----------------discover strategies (T)------------------------')
 		T = self.searchWithHeuristic(num)
 		# test against piN and obtain the winners
 		W = []
-		print ('----------------discover strategies (T)------------------------')
 		for t in T:
-			print (t)
+			print ('discovered: ', t)
 		print ('-----------------find winning strategies (W)--------------------')
 		for t in T:
 			if self.payoff (t, self.piN) > 0:
@@ -60,6 +60,7 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 		l = []
 		for w in W:
 			l += w.support()
+		print ('=====')
 
 		WNM = l + self.N + self.M
 		# remove duplicates
@@ -80,7 +81,15 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 		print ('----------------the updated piN is ------------------')
 
 	def solve(self, WNM):
-		pass
+		# create a matrix
+		M = []
+		for i in WNM:
+			r = [] # a row
+			for j in WNM:
+				r.append(self.payoff(i, j))
+			M.append(r)
+		print (M) 
+
 	# TODO : Robert
 
 	def searchWithHeuristic(self, num):
@@ -90,23 +99,30 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 			# obtain a mixed strategy of random size
 			size = random.randrange(1, len(self.pureStrategies)+1) # any number between 1 and len(self.pureStragegies)
 			# print('size',size)
-			st = [] # the pure strategy 
-			pc = [] # the percentage
+			# st = [] # the pure strategy 
+			pc = {} # the percentage
+			#initialise the dictionary
+			for v in self.pureStrategies:
+				pc[v.value] = 0
 
 			total = 0
 			for i in range(size):
-				st.append(random.choice(self.pureStrategies).value)
-				pc.append(random.randint(0, 5))
-				total += pc[i]
+				c = random.choice(self.pureStrategies).value
+				rd = random.randint(0, 5)
+				pc[c] = pc[c] + rd 
+				total += rd
 				# print ('total',total)
+				# print ('keys ', pc.keys(), ' values ', pc.values(), 'total', total)
 
 			if total == 0:
 				# this mixed strategy is of size one
 				strategies.append(random.choice(self.pureStrategies).convertToMixed())
 			else:
-				for i in range(size):
+				for v in self.pureStrategies:
+					i = v.value
 					pc[i] = pc[i]/total
-				strategies.append(MixedStrategy(st, pc))
+					# print ('so', i, pc[i])
+				strategies.append(MixedStrategy(list(pc.keys()), list(pc.values())))
 
 		return strategies
 
