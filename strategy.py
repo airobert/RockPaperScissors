@@ -21,7 +21,8 @@ class PureStrategy(object):
 			return 'PAPER'
 		if self.value == SCISSORS:
 			return 'SCISSORS'
-
+	def __eq__(self, other): 
+		return (self.value)
 
 class MixedStrategy(object):
 	def __init__(self, values, probabilities): # values is basically pure strategies (of probability 1)
@@ -39,7 +40,7 @@ class MixedStrategy(object):
 		l = []
 		for i in range(len(self.probabilities)):
 			if self.probabilities[i] != 0:
-				l.append(self.values[i])
+				l.append(PureStrategy(self.values[i]))
 		return l
 
 	def __str__(self):
