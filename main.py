@@ -29,11 +29,11 @@ class  Platform(object):
 		# +-------------------------------------------+
 		# |           | rock 0 | paper 1 | scissors 2 |  
 		# | rock 0    |      0 |      -1 |          1 |
-		# | paper 1   |     -1 |       0 |          1 |
+		# | paper 1   |      1 |       0 |         -1 |
 		# | scissors 2|     -1 |       1 |          0 |
 		# +-------------------------------------------+  
 
-		matrix = [[0, -1, 1], [-1, 0, 1], [-1, 1, 0]]
+		matrix = [[0, -1, 1], [1, 0, -1], [-1, 1, 0]]
 
 		return matrix[c1][c2]
 
@@ -73,7 +73,7 @@ def main():
 	pl = Platform ([a], [r, p, s]) # initialise the domain#
 
 	a.printInfo()
-	a.iteration(3)
+	a.iteration(3, 5)
 	
 	
 if __name__ == "__main__":

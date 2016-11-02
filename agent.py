@@ -4,6 +4,7 @@
 
 import random
 
+from pulp import *
 from strategy import *
 import sys
 
@@ -36,61 +37,115 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 	# 	for i in range(numIter):
 	# 		# start this iteration with discovering new strategies by the heuristic
 
-	def iteration (self, num):
-		print ('-----------------the current strategy is', self.piN)
-		print ('----------------discover strategies (T)------------------------')
-		T = self.searchWithHeuristic(num)
-		# test against piN and obtain the winners
-		W = []
-		for t in T:
-			print ('discovered: ', t)
-		print ('-----------------find winning strategies (W)--------------------')
-		for t in T:
-			if self.payoff (t, self.piN) > 0:
-				W.append(t)
-				print ('one of the winning strategies is: ', t)
+	def iteration (self, num, termi_num):
+		count = 0
+		while count < termi_num:
+			print ('\n\n\n\n-----------------the current strategy is\n\t', self.piN)
+			print ('----------------discover strategies (T)------------------------')
+			T = self.searchWithHeuristic(num)
+			# test against piN and obtain the winners
+			W = []
+			for t in T:
+				print ('discovered: ', t)
+			print ('-----------------find winning strategies (W)--------------------')
+			for t in T:
+				if self.payoff (t, self.piN) > 0:
+					W.append(t)
+					print ('winner: ', t)
+			if len(W) != 0:
+				print('------------------find N+M+W ------------------------------')
+				# solve and find the piN'
+				# set union N, M, W
+				for n in self.N:
+					print ('N', n)
+				for m in self.M:
+					print ('M', m)
+				l = []
+				for w in W:
+					l += w.support()
+				print ('=====')
 
-		print('------------------find N+M+W ------------------------------')
-		# solve and find the piN'
-		# set union N, M, W
-		for n in self.N:
-			print ('N', n)
-		for m in self.M:
-			print ('M', m)
-		l = []
-		for w in W:
-			l += w.support()
-		print ('=====')
+				WNM = l + self.N + self.M
+				# remove duplicates
+				WNM2 = []
+				for i in range(len(WNM)):
+					flag = False
+					for w in WNM2:
+						if WNM[i].value == w.value:
+							flag = True
+					if flag == False:
+						WNM2.append(WNM[i])
+				for a in WNM2:
+					print ('W+N+M: ', a)
+				WNM = WNM2
 
-		WNM = l + self.N + self.M
-		# remove duplicates
-		WNM2 = []
-		for i in range(len(WNM)):
-			flag = False
-			for w in WNM2:
-				if WNM[i].value == w.value:
-					flag = True
-			if flag == False:
-				WNM2.append(WNM[i])
-		for a in WNM2:
-			print ('W+N+M: ', a)
-		WNM = WNM2
-
-		print ('---------------- use linear programming and solve --------')
-		self.piN = self.solve(WNM2)
-		print ('----------------the updated piN is ------------------')
+				print ('---------------- use linear programming and solve --------')
+				self.solve(WNM2)
+				print ('----------------the updated piN is ------------------')
+				print (self.piN)
+			else:
+				print ('There is no winning strategy, skip this turn: ', count)
+				count += 1
+		print ('The final strategy is: ', self.piN)
 
 	def solve(self, WNM):
+		# WNM is a list of pure strategies
 		# create a matrix
+		size = len(WNM)
 		M = []
 		for i in WNM:
+			print ('row:', i)
 			r = [] # a row
 			for j in WNM:
+				print ('\tcolumn', j)
 				r.append(self.payoff(i, j))
 			M.append(r)
-		print (M) 
+		print (M)
 
-	# TODO : Robert
+		# TODO : Robert needs to document these
+		prob = LpProblem("solve", LpMaximize)
+
+		# define size-many variables
+		variables = []
+		for w in WNM:
+			x = LpVariable('x'+str(w.value), 0, 1)
+			variables.append(x)
+
+		v = LpVariable("v", 0)
+
+		# Objective
+		prob += v
+
+		# Constraints
+		for row in M:
+			acc = 0
+			for i in range(size):
+				acc += row[i] * variables[i]
+			prob += v <= acc
+
+		acc = 0
+		for x in variables:
+			acc += x
+		prob += acc == 1
+
+
+		GLPK().solve(prob)
+		print ('------------------solving-------------------------')
+		# Solution
+		values = []
+		probabilities = []
+		for v in prob.variables():
+			for w in WNM:
+				if v.name == 'x'+ str(w.value) and v.varValue != 0:
+					values.append(w.value)
+					probabilities.append(v.varValue)
+		print ("objective=", value(prob.objective))
+
+		# print ('The new PiN is: ', self.piN) 
+		self.piN = MixedStrategy(values, probabilities)
+
+
+
 
 	def searchWithHeuristic(self, num):
 		# TODO: Yang, so far it is just a random choice and return a mixed strategy

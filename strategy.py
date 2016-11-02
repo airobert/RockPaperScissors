@@ -26,7 +26,7 @@ class PureStrategy(object):
 
 class MixedStrategy(object):
 	def __init__(self, values, probabilities): # values is basically pure strategies (of probability 1)
-		if len(values) == len(probabilities) and sum(probabilities) == 1:
+		if len(values) == len(probabilities) and 1 - sum(probabilities) < 0.0001 :
 			self.values = values
 			self.probabilities = probabilities
 		else:
