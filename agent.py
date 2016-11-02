@@ -32,13 +32,12 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 		print ('There are the following strategies:')
 		for p in self.pureStrategies:
 			print ('\t', p)
-
-	# def iteration (self, numIter):#
-	# 	for i in range(numIter):
-	# 		# start this iteration with discovering new strategies by the heuristic
-
+			
+	# every time the searching heuristic returns to the most num strategies.
+	# if after termi_num, there is no new winning strategy discovered, we terminate 
 	def iteration (self, num, termi_num):
-		count = 0
+		count = 0 # we consider that we have the solution if for termi_num times the 
+		# searching heuristic still does not give us anything new. 
 		while count < termi_num:
 			print ('\n\n\n\n-----------------the current strategy is\n\t', self.piN)
 			print ('----------------discover strategies (T)------------------------')
@@ -83,10 +82,13 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 				self.solve(WNM2)
 				print ('----------------the updated piN is ------------------')
 				print (self.piN)
+				self.N = self.piN.support()
+				# M is not tracked since the size of the game is tiny
 			else:
 				print ('There is no winning strategy, skip this turn: ', count)
 				count += 1
 		print ('The final strategy is: ', self.piN)
+
 
 	def solve(self, WNM):
 		# WNM is a list of pure strategies
@@ -103,12 +105,12 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 		print (M)
 
 		# TODO : Robert needs to document these
-		prob = LpProblem("solve", LpMaximize)
+		prob = LpProblem("solve", LpMaximize) # the row player is always trying to maximise
 
 		# define size-many variables
 		variables = []
 		for w in WNM:
-			x = LpVariable('x'+str(w.value), 0, 1)
+			x = LpVariable('y'+str(w.value), 0, 1)
 			variables.append(x)
 
 		v = LpVariable("v", 0)
@@ -121,7 +123,7 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 			acc = 0
 			for i in range(size):
 				acc += row[i] * variables[i]
-			prob += v <= acc
+			prob += v <= acc # the column player will always want to minimise
 
 		acc = 0
 		for x in variables:
@@ -136,19 +138,17 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 		probabilities = []
 		for v in prob.variables():
 			for w in WNM:
-				if v.name == 'x'+ str(w.value) and v.varValue != 0:
+				if v.name == 'y'+ str(w.value) and v.varValue != 0:
 					values.append(w.value)
 					probabilities.append(v.varValue)
 		print ("objective=", value(prob.objective))
 
-		# print ('The new PiN is: ', self.piN) 
 		self.piN = MixedStrategy(values, probabilities)
 
 
 
 
 	def searchWithHeuristic(self, num):
-		# TODO: Yang, so far it is just a random choice and return a mixed strategy
 		strategies = []
 		for n in range(num):
 			# obtain a mixed strategy of random size

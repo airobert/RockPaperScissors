@@ -48,8 +48,6 @@ class  Platform(object):
 		if 'PureStrategy' in  str(type(n)):
 			n = n.convertToMixed()
 
-		# print ('type', type(m))
-		# for the first player (m): 
 		em = 0 # expected payoff for m
 		for i in range(len(m.values)):
 			e = 0
@@ -61,11 +59,8 @@ class  Platform(object):
 
 		
 def main():
-	global rounds
 
-	# pl.play(rounds)
-
-	# initialise one agent that plays against computer
+	# since this game is symmetric, we consider only one agent
 	r = PureStrategy(ROCK)
 	p = PureStrategy(PAPER)
 	s = PureStrategy(SCISSORS)
@@ -73,7 +68,8 @@ def main():
 	pl = Platform ([a], [r, p, s]) # initialise the domain#
 
 	a.printInfo()
-	a.iteration(3, 5)
+	a.iteration(3, 5) # discover to the most 3 stategies and terminate if no winning
+	# strategy discovered in 5 rounds of searching
 	
 	
 if __name__ == "__main__":

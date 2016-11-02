@@ -14,7 +14,7 @@ class PureStrategy(object):
 	def convertToMixed(self):
 		return MixedStrategy([self.value], [1.0])
 
-	def __str__(self):
+	def __str__(self): # override the default printing function
 		if self.value == ROCK:
 			return 'ROCK'
 		if self.value == PAPER:
@@ -43,7 +43,7 @@ class MixedStrategy(object):
 				l.append(PureStrategy(self.values[i]))
 		return l
 
-	def __str__(self):
+	def __str__(self):# override the default printing function
 		s = ''
 		for i in range (len(self.values)):
 
@@ -59,4 +59,5 @@ class MixedStrategy(object):
 		return s
 
 
+# class StrategyList --  TODO
 	
