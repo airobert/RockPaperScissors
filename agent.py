@@ -79,11 +79,27 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 				WNM = WNM2
 
 				print ('---------------- use linear programming and solve --------')
-				self.solve(WNM2)
+				self.solve(WNM)
 				print ('----------------the updated piN is ------------------')
 				print (self.piN)
 				self.N = self.piN.support()
-				# M is not tracked since the size of the game is tiny
+
+				for n in self.N:
+					print ('N', n)
+				self.M = []
+				for m in WNM :
+					# if it is in N, remove
+					flag = False
+					for n in self.N:
+						if m.value == n.value:
+							flag = True
+					if not flag :
+						self.M.append(m)
+						
+				for m in self.M:
+					print ('M', m) 
+
+
 			else:
 				print ('There is no winning strategy, skip this turn: ', count)
 				count += 1
@@ -96,13 +112,13 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 		size = len(WNM)
 		M = []
 		for i in WNM:
-			print ('row:', i)
+			# print ('row:', i)
 			r = [] # a row
 			for j in WNM:
-				print ('\tcolumn', j)
+				# print ('\tcolumn', j)
 				r.append(self.payoff(i, j))
 			M.append(r)
-		print (M)
+		# print (M)
 
 		# TODO : Robert needs to document these
 		prob = LpProblem("solve", LpMaximize) # the row player is always trying to maximise
