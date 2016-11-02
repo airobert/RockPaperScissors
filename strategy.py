@@ -22,7 +22,7 @@ class PureStrategy(object):
 		if self.value == SCISSORS:
 			return 'SCISSORS'
 	def __eq__(self, other): 
-		return (self.value)
+		return (self.value == other.value)
 
 class MixedStrategy(object):
 	def __init__(self, values, probabilities): # values is basically pure strategies (of probability 1)
