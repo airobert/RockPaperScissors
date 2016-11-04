@@ -112,11 +112,12 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 		size = len(WNM)
 		M = []
 		for i in WNM:
-			# print ('row:', i)
+			print ('row:', i)
 			r = [] # a row
 			for j in WNM:
-				# print ('\tcolumn', j)
+				print ('\tcolumn', j)
 				r.append(self.payoff(i, j))
+				print (self.payoff(i, j))
 			M.append(r)
 		# print (M)
 
@@ -126,7 +127,7 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 		# define size-many variables
 		variables = []
 		for w in WNM:
-			x = LpVariable('y'+str(w.value), 0, 1)
+			x = LpVariable('x'+str(w.value), 0, 1)
 			variables.append(x)
 
 		v = LpVariable("v", 0)
@@ -135,10 +136,10 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 		prob += v
 
 		# Constraints
-		for row in M:
+		for i in range(size):
 			acc = 0
-			for i in range(size):
-				acc += row[i] * variables[i]
+			for j in range(size):
+				acc += M[j][i] * variables[j] 
 			prob += v <= acc # the column player will always want to minimise
 
 		acc = 0
@@ -154,7 +155,7 @@ class Agent: # the default one is a Naive agent playing simple a strategy
 		probabilities = []
 		for v in prob.variables():
 			for w in WNM:
-				if v.name == 'y'+ str(w.value) and v.varValue != 0:
+				if v.name == 'x'+ str(w.value) and v.varValue != 0:
 					values.append(w.value)
 					probabilities.append(v.varValue)
 		print ("objective=", value(prob.objective))
